@@ -3,19 +3,19 @@
 //
 // ```jsx
 // export const generated = (args) => {
-//   return <ExpensesLinearGraph {...args} />
+//   return <GraphBarCustom {...args} />
 // }
 // ```
 //
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
-import ExpensesLinearGraph from './ExpensesLinearGraph'
+import GraphBarCustom from './GraphBarCustom'
 
 export const generated = () => {
-  return <ExpensesLinearGraph />
+  return <GraphBarCustom />
 }
 
 export default {
-  title: 'Components/ExpensesLinearGraph',
-  component: ExpensesLinearGraph,
+  title: 'Components/GraphBarCustom',
+  component: GraphBarCustom,
 }

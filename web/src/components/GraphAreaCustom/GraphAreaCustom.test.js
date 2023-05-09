@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import ExpensesLinearGraph from './ExpensesLinearGraph'
+import GraphAreaCustom from './GraphAreaCustom'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('ExpensesLinearGraph', () => {
+describe('GraphAreaCustom', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<ExpensesLinearGraph />)
+      render(<GraphAreaCustom />)
     }).not.toThrow()
   })
 })

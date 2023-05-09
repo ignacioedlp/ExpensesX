@@ -8366,6 +8366,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"apexcharts@npm:^3.40.0":
+  version: 3.40.0
+  resolution: "apexcharts@npm:3.40.0"
+  dependencies:
+    svg.draggable.js: ^2.2.2
+    svg.easing.js: ^2.0.0
+    svg.filter.js: ^2.0.2
+    svg.pathmorphing.js: ^0.1.3
+    svg.resize.js: ^1.4.3
+    svg.select.js: ^3.0.1
+  checksum: 8851241b2e2c81479d832dc35dfc125d451c8e7fbc77ea9c30cd6d49c2c959ac3192e085ec040bce63940a26f6a784c4feb27fa2a241f4ee81c35939468bfb4f
+  languageName: node
+  linkType: hard
+
 "api@workspace:api":
   version: 0.0.0-use.local
   resolution: "api@workspace:api"
@@ -20849,7 +20863,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.0.0, prop-types@npm:^15.5.10, prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.0.0, prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -21142,6 +21156,18 @@ __metadata:
   bin:
     rc: ./cli.js
   checksum: 24a07653150f0d9ac7168e52943cc3cb4b7a22c0e43c7dff3219977c2fdca5a2760a304a029c20811a0e79d351f57d46c9bde216193a0f73978496afc2b85b15
+  languageName: node
+  linkType: hard
+
+"react-apexcharts@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "react-apexcharts@npm:1.4.0"
+  dependencies:
+    prop-types: ^15.5.7
+  peerDependencies:
+    apexcharts: ^3.18.0
+    react: ">=0.13"
+  checksum: 42157e1ec24376d81646fc185b3ff3ea97c94bbd71c8da308129e75d303f75b7453fa81e074424564db5edfce5900b3dd288a6117babaa7c4af7c127a3c78ff6
   languageName: node
   linkType: hard
 
@@ -25335,6 +25361,7 @@ __metadata:
     "@redwoodjs/forms": 4.5.0
     "@redwoodjs/router": 4.5.0
     "@redwoodjs/web": 4.5.0
+    apexcharts: ^3.40.0
     autoprefixer: ^10.4.14
     chart.js: ^4.2.1
     humanize-string: 2.1.0
@@ -25342,6 +25369,7 @@ __metadata:
     postcss-loader: ^7.2.4
     prop-types: 15.8.1
     react: 17.0.2
+    react-apexcharts: ^1.4.0
     react-color: ^2.19.3
     react-dom: 17.0.2
     react-vis: ^1.11.12

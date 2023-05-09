@@ -16,9 +16,9 @@ const DELETE_CATEGORY_MUTATION = gql`
 const CategoriesDashboard = ({ categories }) => {
 
   return (
-    <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
       {categories.map((category) => (
-        <div class="flex flex-col justify-center px-4 py-4 border border-gray-300 rounded">
+        <div class="flex flex-col justify-center px-4 py-4 border border-gray-300 rounded bg-[#2B2C31]">
           <div>
             <p class="text-2xl md:text-3xl font-semibold text-center text-white">{(parseFloat(category.totalExpenses)).toLocaleString('en-US')}$</p>
             <p class="text-lg text-center text-white">{category.name}</p>

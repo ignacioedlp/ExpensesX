@@ -3,13 +3,30 @@ import { MetaTags } from '@redwoodjs/web'
 import { useEffect, useState } from 'react'
 import WalletsCell from 'src/components/Wallet/WalletsCell'
 import CategoriesCell from 'src/components/Category/CategoriesCell'
-import ExpensesLinearGraph from 'src/components/ExpensesLinearGraph/ExpensesLinearGraph'
+// import ExpensesLinearGraph from 'src/components/ExpensesLinearGraph/ExpensesLinearGraph'
 import Navbar from 'src/components/Navbar/Navbar'
+import GraphAreaCustom from 'src/components/GraphAreaCustom/GraphAreaCustom'
+import GraphBarCustom from 'src/components/GraphBarCustom/GraphBarCustom'
+import GraphPieCustom from 'src/components/GraphPieCustom/GraphPieCustom'
+
+import { useQuery } from '@redwoodjs/web'
+
+const CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      name
+      totalForMonth
+      color
+    }
+  }
+`
 
 const DashboardPage = () => {
 
   const [priceUsds, setPriceUsds] = useState(null)
   const [priceUsd, setPriceUsd] = useState(null)
+  const { data } = useQuery(CATEGORIES)
 
   useEffect(() => {
     const fetchPriceUsds = async () => {
@@ -29,26 +46,28 @@ const DashboardPage = () => {
     fetchPriceUsds()
   }, [])
 
+
   return (
     <>
       <MetaTags title="Dashboard" description="Dashboard page" />
 
       <div className='w-full flex bg-[#201F25]'>
         <Navbar />
-        <div className='flex flex-col justify-start items-center gap-5 w-full p-4'>
+        <div className='flex flex-col justify-start items-center gap-5 w-full p-4 text-white'>
           <div className='w-full flex justify-between items-center px-4 p-6'>
-            <h2 className='text-4xl font-bold text-[#FFFFFF] hidden md:block'>Dashboard</h2>
-            <h2 className='text-4xl font-bold text-[#FFFFFF] md:hidden'>Board</h2>
+            <h2 className='text-4xl font-bold hidden md:block'>Dashboard</h2>
+            <h2 className='text-4xl font-bold md:hidden'>Board</h2>
             <div className="relative w-1/2 md:w-72">
               {priceUsds != null && (
                 <select
-                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                  className="block appearance-none w-full bg-transparent border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                   onChange={(e) => {
                     setPriceUsd(priceUsds.find((item) => item.id == e.target.value))
                   }}
+                  style={{ background: "transparent" }}  // Fondo Transparente
                 >
                   {priceUsds.map((item) => (
-                    <option key={item?.name} value={item?.id}>
+                    <option key={item?.name} value={item?.id} className="bg-transparent">
                       {item?.name}
                     </option>
                   ))}
@@ -63,16 +82,20 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
-          <div className='flex flex-col justify-start items-center md:items-start w-full px-4'>
-            <h3 className='text-2xl font-bold text-[#FFFFFF] mb-4'>Wallets</h3>
+          <div className='flex flex-col justify-start items-center md:items-start w-full px-4 rounded-sm border py-4'>
+            <h3 className='text-2xl font-bold mb-4'>Wallets</h3>
             <WalletsCell dashboard={true} priceUsd={priceUsd?.price} />
           </div>
-          <div className='flex flex-col justify-start items-center md:items-start w-full px-4'>
-            <h3 className='text-2xl font-bold text-[#FFFFFF] mb-4'>Expenses</h3>
-            <CategoriesCell dashboard={true} />
+          <div className='flex w-full gap-2 justify-between'>
+            <div className='flex flex-col justify-start items-center md:items-start w-full px-4 rounded-sm border py-4'>
+              <h3 className='text-2xl font-bold mb-4'>Expenses</h3>
+              <CategoriesCell dashboard={true} />
+            </div>
+            <GraphPieCustom data={data?.categories} />
           </div>
-          <div className='flex flex-col justify-start items-center md:items-start w-full px-4'>
-            <ExpensesLinearGraph />
+          <div className='flex-col flex lg:flex-row w-full gap-2 justify-between '>
+            <GraphAreaCustom data={data?.categories} />
+            <GraphBarCustom data={data?.categories} />
           </div>
         </div>
       </div>
