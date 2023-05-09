@@ -90,24 +90,6 @@ const options = {
   dataLabels: {
     enabled: false,
   },
-  responsive: [
-    {
-      breakpoint: 2600,
-      options: {
-        chart: {
-          width: 380,
-        },
-      },
-    },
-    {
-      breakpoint: 640,
-      options: {
-        chart: {
-          width: 200,
-        },
-      },
-    },
-  ],
 };
 
 const createConfiguration = (data) => {
@@ -130,7 +112,7 @@ const GraphPieCustom = ({ data }) => {
   }, [data])
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-[#2B2C31] px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
+    <div className="col-span-12 rounded-sm border border-stroke bg-[#2B2C31] px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5 w-full lg:w-2/5">
       <div className="mb-3 justify-between gap-4 sm:flex py-4">
         <div>
           <h5 className="text-2xl font-bold mb-4">

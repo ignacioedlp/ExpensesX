@@ -1,12 +1,16 @@
 export function transformDataAreaGraph(data) {
 
+
+  const currentMonthIndex = new Date().getMonth();
+
   if (!data)
     return []
 
   let result = data.map((category) => {
     return {
       name: category.name,
-      data: category.totalForMonth,
+      // data tiene que ser category.totalForMonth, acortado hasta este mes
+      data: Array.from({ length: currentMonthIndex + 1 }, (_, i) => category.totalForMonth[i]),
       color: category.color,
     };
   });
@@ -21,6 +25,8 @@ export function transformDataBarGraph(data) {
 
   let monthsTotal = [];
 
+  const currentMonthIndex = new Date().getMonth();
+
   let result = data.forEach(element => {
     for (let i = 0; i < element.totalForMonth.length; i++) {
       if (monthsTotal[i] === undefined) {
@@ -33,7 +39,7 @@ export function transformDataBarGraph(data) {
 
   return [{
     name: "Total",
-    data: monthsTotal,
+    data: Array.from({ length: currentMonthIndex + 1 }, (_, i) => monthsTotal[i]),
   }]
 }
 

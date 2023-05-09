@@ -86,7 +86,7 @@ const DashboardPage = () => {
             <h3 className='text-2xl font-bold mb-4'>Wallets</h3>
             <WalletsCell dashboard={true} priceUsd={priceUsd?.price} />
           </div>
-          <div className='flex w-full gap-2 justify-between'>
+          <div className='flex-col flex lg:flex-row w-full gap-2 justify-between'>
             <div className='flex flex-col justify-start items-center md:items-start w-full px-4 rounded-sm border py-4'>
               <h3 className='text-2xl font-bold mb-4'>Expenses</h3>
               <CategoriesCell dashboard={true} />

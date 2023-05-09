@@ -42,20 +42,6 @@ const options = {
   theme: {
     mode: 'dark',
   },
-
-  responsive: [
-    {
-      breakpoint: 1536,
-      options: {
-        plotOptions: {
-          bar: {
-            borderRadius: 0,
-            columnWidth: '25%',
-          },
-        },
-      },
-    },
-  ],
   plotOptions: {
     bar: {
       horizontal: false,
@@ -133,7 +119,7 @@ const GraphBarCustom = ({ data }) => {
   }, [data])
 
   return (
-    <div className="border-stroke p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border bg-[#2B2C31] w-1/2 p-5">
+    <div className="border-stroke p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border bg-[#2B2C31] lg:w-4/5 p-5 w-full">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-2xl font-bold mb-4">

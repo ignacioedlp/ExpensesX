@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { transformDataAreaGraph } from 'src/lib/expensesMonth';
 
+const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+const currentMonthIndex = new Date().getMonth();
+
 const options = {
   chart: {
     id: 'gastos-chart',
@@ -14,7 +17,7 @@ const options = {
     mode: 'dark',
   },
   xaxis: {
-    categories: ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+    categories: Array.from({ length: currentMonthIndex + 1 }, (_, i) => monthNames[i]),
     labels: {
       style: {
         colors: '#9AA5B1',
