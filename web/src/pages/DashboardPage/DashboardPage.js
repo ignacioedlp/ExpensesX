@@ -68,7 +68,7 @@ const DashboardPage = () => {
                 >
                   {priceUsds.map((item) => (
                     <option key={item?.name} value={item?.id} className="bg-transparent">
-                      {item?.name}
+                      {item?.name} ({Math.round(item?.price)}$)
                     </option>
                   ))}
                 </select>

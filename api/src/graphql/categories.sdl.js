@@ -8,8 +8,8 @@ export const schema = gql`
     updatedAt: DateTime!
     user: User!
     totalExpenses: Int!
-    # Devolver el total por mes gastado en esta categoría en un objeto con la forma { key: 'month-year', total: 0 }
     totalForMonth: [Int!]!
+    expenses: [Expense!]!
   }
 
   type Query {

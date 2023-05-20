@@ -1,16 +1,18 @@
 import { Link, routes } from '@redwoodjs/router'
+import { useEffect } from 'react';
 
 import Expenses from 'src/components/Expense/Expenses'
 
 export const QUERY = gql`
   query FindExpenses {
-    expenses {
+    expenses{
       id
       name
       amount
-      category{
-        name
+      category {
         id
+        name
+        color
       }
       userId
       date
@@ -18,7 +20,7 @@ export const QUERY = gql`
       updatedAt
     }
   }
-`
+`;
 
 export const Loading = () => <div>Loading...</div>
 

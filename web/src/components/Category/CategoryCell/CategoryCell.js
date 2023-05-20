@@ -8,6 +8,15 @@ export const QUERY = gql`
       createdAt
       updatedAt
       color
+      expenses {
+        id
+        name
+        amount
+        date
+        category {
+          name
+        }
+      }
       currency {
         id
         name

@@ -34,6 +34,12 @@ export const Category = {
     db.category.findFirst({ where: { id: root.id } }).user(),
   currency: (_obj, { root }) =>
     db.category.findFirst({ where: { id: root.id } }).currency(),
+  expenses: (_obj, { root }) =>
+    db.category.findFirst({ where: { id: root.id } }).expenses({
+      orderBy: {
+        date: 'desc',
+      },
+    }),
   totalExpenses: async (_obj, { root }) => {
     const expenses = await db.expense.findMany({
       where: { categoryId: root.id },
@@ -42,27 +48,26 @@ export const Category = {
   },
   // Devolver el total por mes de un año gastado en esta categoría
   totalForMonth: async (_obj, { root }) => {
-      const currentYear = new Date().getFullYear(); // obtener el año actual
-      const expenses = await db.expense.findMany({
-        where: {
-          categoryId: root.id,
-          date: {
-            gte: new Date(currentYear, 0, 1), // filtro para expenses con fecha a partir del 1 de enero del año actual
-            lt: new Date(currentYear + 1, 0, 1) // filtro para expenses con fecha anterior al 1 de enero del próximo año
-          }
-        },
-      });
+    const currentYear = new Date().getFullYear(); // obtener el año actual
+    const expenses = await db.expense.findMany({
+      where: {
+        categoryId: root.id,
+        date: {
+          gte: new Date(currentYear, 0, 1), // filtro para expenses con fecha a partir del 1 de enero del año actual
+          lt: new Date(currentYear + 1, 0, 1) // filtro para expenses con fecha anterior al 1 de enero del próximo año
+        }
+      },
+    });
 
-      const totalForMonth = new Array(12).fill(0);
+    const totalForMonth = new Array(12).fill(0);
 
-      expenses.forEach(expense => {
-        const date = new Date(expense.date);
-        const month = date.getMonth();
-        const index = month;
-        totalForMonth[index] += expense.amount;
-      });
+    expenses.forEach(expense => {
+      const date = new Date(expense.date);
+      const month = date.getMonth();
+      const index = month;
+      totalForMonth[index] += expense.amount;
+    });
 
-      return totalForMonth;
-  }
-
+    return totalForMonth;
+  },
 }

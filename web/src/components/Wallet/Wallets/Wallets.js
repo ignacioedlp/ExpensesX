@@ -4,6 +4,19 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Wallet/WalletsCell'
 import { timeTag, truncate } from 'src/lib/formatters'
+import {
+  Card,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeaderCell,
+  TableBody,
+  TableCell,
+  Text,
+  Title,
+  Badge,
+} from "@tremor/react";
+import { Button } from "@tremor/react";
 
 const DELETE_WALLET_MUTATION = gql`
   mutation DeleteWalletMutation($id: Int!) {

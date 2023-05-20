@@ -4,6 +4,21 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Expense/ExpensesCell'
 import { timeTag, truncate } from 'src/lib/formatters'
+import moment from 'moment';
+import { StatusOnlineIcon } from "@heroicons/react/outline";
+import {
+  Card,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeaderCell,
+  TableBody,
+  TableCell,
+  Text,
+  Title,
+  Badge,
+} from "@tremor/react";
+import { Button } from "@tremor/react";
 
 const DELETE_EXPENSE_MUTATION = gql`
   mutation DeleteExpenseMutation($id: Int!) {
@@ -35,63 +50,66 @@ const ExpensesList = ({ expenses }) => {
   }
 
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>User id</th>
-            <th>Date</th>
-            <th>Created at</th>
-            <th>Updated at</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((expense) => (
-            <tr key={expense.id}>
-              <td>{truncate(expense.id)}</td>
-              <td>{truncate(expense.name)}</td>
-              <td>{truncate(expense.amount)}</td>
-              <td>{truncate(expense.category.name)}</td>
-              <td>{truncate(expense.userId)}</td>
-              <td>{timeTag(expense.date)}</td>
-              <td>{timeTag(expense.createdAt)}</td>
-              <td>{timeTag(expense.updatedAt)}</td>
-              <td>
-                <nav className="rw-table-actions">
-                  <Link
-                    to={routes.expense({ id: expense.id })}
-                    title={'Show expense ' + expense.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                  <Link
-                    to={routes.editExpense({ id: expense.id })}
-                    title={'Edit expense ' + expense.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    title={'Delete expense ' + expense.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(expense.id)}
-                  >
-                    Delete
-                  </button>
+    <Card>
+      <Title>Expenses</Title>
+      <Table className="mt-5">
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Amount</TableHeaderCell>
+            <TableHeaderCell>Date</TableHeaderCell>
+            <TableHeaderCell>Category</TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {expenses.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>
+                <Text>{item.amount} $</Text>
+              </TableCell>
+              <TableCell>
+                <Text>{moment(item.date).format('DD-MM-YYYY HH:mm')}</Text>
+              </TableCell>
+              <TableCell>
+                <Badge color="emerald">
+                  {item.category.name}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <nav className="rw-table-actions space-x-2">
+                  <Button size="xs">
+                    <Link
+                      to={routes.expense({ id: item.id })}
+                      title={'Show expense ' + item.id + ' detail'}
+                    >
+                      Show
+                    </Link>
+                  </Button>
+                  <Button size="xs" color={"yellow"} >
+                    <Link
+                      to={routes.editExpense({ id: item.id })}
+                      title={'Edit expense ' + item.id}
+                    >
+                      Edit
+                    </Link>
+                  </Button>
+                  <Button size="xs" color={"red"}>
+                    <Link
+                      type="button"
+                      title={'Delete expense ' + item.id}
+                      onClick={() => onDeleteClick(item.id)}
+                    >
+                      Delete
+                    </Link>
+                  </Button>
                 </nav>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </Card>
   )
 }
 

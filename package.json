@@ -24,6 +24,7 @@
   },
   "packageManager": "yarn@3.5.0",
   "dependencies": {
-    "apexcharts": "^3.39.0"
+    "apexcharts": "^3.39.0",
+    "moment": "^2.29.4"
   }
 }

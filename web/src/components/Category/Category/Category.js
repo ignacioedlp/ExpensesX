@@ -1,6 +1,8 @@
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
+import Expenses from 'src/components/Expense/Expenses'
+
 
 import { timeTag } from 'src/lib/formatters'
 
@@ -81,6 +83,7 @@ const Category = ({ category }) => {
           Delete
         </button>
       </nav>
+      {category.expenses ? <Expenses expenses={category.expenses} /> : null}
     </>
   )
 }

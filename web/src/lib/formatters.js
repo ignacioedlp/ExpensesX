@@ -1,5 +1,5 @@
 import React from 'react'
-
+import moment from 'moment'
 import humanize from 'humanize-string'
 
 const MAX_STRING_LENGTH = 150
@@ -44,9 +44,10 @@ export const timeTag = (dateTime) => {
 
   if (dateTime) {
     output = (
-      <time dateTime={dateTime} title={dateTime}>
-        {new Date(dateTime).toUTCString()}
-      </time>
+      // <time dateTime={dateTime} title={dateTime}>
+      //   {new Date(dateTime).toUTCString()}
+      // </time>
+      moment(dateTime).format('DD-MM-YYYY HH:mm')
     )
   }
 
