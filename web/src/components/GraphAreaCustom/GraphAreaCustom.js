@@ -20,7 +20,7 @@ const GraphAreaCustom = ({ data }) => {
   return (
     <div className=" w-full">
       <Card>
-        <Title>Gastado en categoria por mes</Title>
+        <Title>Spending in category per month</Title>
         <AreaChart
           className="h-96 mt-4"
           data={transformedData.data}

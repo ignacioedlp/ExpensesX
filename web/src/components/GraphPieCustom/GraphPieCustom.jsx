@@ -35,9 +35,9 @@ const GraphPieCustom = ({ data }) => {
 
   return (
     <div className="col-span-12 xl:col-span-5 w-full lg:w-2/5">
-      <Card className="max-w-md mx-auto">
+      <Card className="max-w-md mx-auto h-full">
         <Flex className="space-x-8" justifyContent="between" alignItems="center">
-          <Title>Total por categoria</Title>
+          <Title>Total per category</Title>
           <Toggle
             defaultValue="chart"
             color="gray"
@@ -47,7 +47,7 @@ const GraphPieCustom = ({ data }) => {
             <ToggleItem value="list" icon={ViewListIcon} />
           </Toggle>
         </Flex>
-        <Text className="mt-8">Promedio por mes</Text>
+        <Text className="mt-8">Average per month</Text>
         <Metric>
           {
             valueFormatter(Math.round(transformedData.reduce((acc, stock) => acc + stock.value, 0) / 12))
@@ -55,7 +55,7 @@ const GraphPieCustom = ({ data }) => {
         </Metric>
         <Divider />
         <Text className="mt-8">
-          <Bold>Categorias</Bold>
+          <Bold>Categories</Bold>
         </Text>
         <Legend
           categories={transformedData.map((city) => city.name)}
@@ -76,9 +76,9 @@ const GraphPieCustom = ({ data }) => {
           <>
             <Flex className="mt-8" justifyContent="between">
               <Text className="truncate">
-                <Bold>Categoria</Bold>
+                <Bold>Category</Bold>
               </Text>
-              <Text>Gastado</Text>
+              <Text>Spent</Text>
             </Flex>
             <List className="mt-4">
               {transformedData.map((stock) => (

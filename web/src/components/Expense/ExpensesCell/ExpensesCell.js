@@ -1,7 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import { useEffect } from 'react';
 
-import Expenses from 'src/components/Expense/Expenses'
+import Expenses, { LastTransactions } from 'src/components/Expense/Expenses'
 
 export const QUERY = gql`
   query FindExpenses {
@@ -39,6 +39,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ expenses }) => {
-  return <Expenses expenses={expenses} />
+export const Success = ({ expenses, dashboard = false }) => {
+  return <Expenses expenses={expenses} dashboard={dashboard} />
 }

@@ -20,6 +20,23 @@ import {
 } from "@tremor/react";
 import { Button } from "@tremor/react";
 
+import {
+  Flex,
+  Dropdown,
+  DropdownItem,
+  Bold,
+  BarList,
+} from "@tremor/react";
+
+
+import { JSXElementConstructor, useEffect, useState } from "react";
+
+const categories = [
+  { key: 5, name: "5 last" },
+  { key: 10, name: "10 last" },
+  { key: 20, name: "20 last" },
+];
+
 const DELETE_EXPENSE_MUTATION = gql`
   mutation DeleteExpenseMutation($id: Int!) {
     deleteExpense(id: $id) {
@@ -28,7 +45,65 @@ const DELETE_EXPENSE_MUTATION = gql`
   }
 `
 
-const ExpensesList = ({ expenses }) => {
+const filterByCategory = (category, data) =>
+  category === 20 ? data : data.slice(0, category)
+
+export const LastTransactions = ({ expenses }) => {
+  const [selectedCategory, setSelectedCategory] = useState(5);
+  const [filteredData, setFilteredData] = useState(null);
+
+  useEffect(() => {
+    setFilteredData(filterByCategory(selectedCategory, expenses));
+  }, [selectedCategory]);
+
+  return (
+    <Card className="w-full mx-auto">
+      <Flex className="space-x-8">
+        <Title>Last expenses</Title>
+        <Dropdown
+          onValueChange={(value) => setSelectedCategory(value)}
+          placeholder="Source Selection"
+          className="max-w-xs"
+        >
+          {categories.map((category) => (
+            <DropdownItem
+              key={category.key}
+              value={category.key}
+              text={category.name}
+            />
+          ))}
+        </Dropdown>
+      </Flex>
+      <Table className="mt-5">
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Amount</TableHeaderCell>
+            <TableHeaderCell>Category</TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {expenses && filteredData?.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>
+                <Text>{item.amount} $</Text>
+              </TableCell>
+              <TableCell>
+                <Badge color="emerald">
+                  {item.category.name}
+                </Badge>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+    </Card>
+  );
+}
+
+export const ExpensesAdminList = ({ expenses }) => {
   const [deleteExpense] = useMutation(DELETE_EXPENSE_MUTATION, {
     onCompleted: () => {
       toast.success('Expense deleted')
@@ -111,6 +186,10 @@ const ExpensesList = ({ expenses }) => {
       </Table>
     </Card>
   )
+}
+
+const ExpensesList = ({ expenses, dashboard = false }) => {
+  return dashboard ? (<LastTransactions expenses={expenses} />) : (<ExpensesAdminList expenses={expenses} />)
 }
 
 export default ExpensesList

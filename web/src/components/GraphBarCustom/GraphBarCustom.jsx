@@ -19,7 +19,7 @@ const GraphBarCustom = ({ data }) => {
   return (
     <div className=" lg:w-4/5  w-full">
       <Card>
-        <Title>Total por mes</Title>
+        <Title>Total per month</Title>
 
         {transformedData && <BarChart
           className="mt-6"

@@ -14,6 +14,17 @@ export const expense = ({ id }) => {
   })
 }
 
+export const getLast20Expenses = () => {
+
+  return db.expense.findMany({
+    orderBy: {
+      createdAt: 'desc' // Sort by descending order of creation time
+    },
+    take: 20 // Limit the results to the first 20 records
+  });
+
+}
+
 export const createExpense = ({ input }) => {
   return db.expense.create({
     data: input,
@@ -55,5 +66,4 @@ export const Expense = {
       }
     })
   },
-
 }

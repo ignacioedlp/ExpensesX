@@ -11,6 +11,7 @@ import GraphBarCustom from 'src/components/GraphBarCustom/GraphBarCustom'
 import GraphPieCustom from 'src/components/GraphPieCustom/GraphPieCustom'
 
 import { useQuery } from '@redwoodjs/web'
+import ExpensesCell from 'src/components/Expense/ExpensesCell'
 
 const CATEGORIES = gql`
   query Categories {
@@ -149,6 +150,9 @@ const DashboardPage = () => {
           <div className='flex-col flex lg:flex-row w-full gap-2 justify-between '>
             <GraphAreaCustom data={data?.categories} />
             <GraphBarCustom data={data?.categories} />
+          </div>
+          <div className='flex-col flex lg:flex-row w-full gap-2 justify-between'>
+            <ExpensesCell dashboard={true} />
           </div>
         </div>
       </div>

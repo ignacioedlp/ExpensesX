@@ -16,6 +16,7 @@ export const schema = gql`
   type Query {
     expenses: [Expense!]! @requireAuth
     expense(id: Int!): Expense @requireAuth
+    getLast20Expenses: [Expense!]! @requireAuth
   }
 
   input CreateExpenseInput {
