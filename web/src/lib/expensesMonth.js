@@ -1,21 +1,43 @@
 export function transformDataAreaGraph(data) {
 
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
 
-  const currentMonthIndex = new Date().getMonth();
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ]
 
-  if (!data)
-    return []
+  const transformedData = []
 
-  let result = data.map((category) => {
-    return {
-      name: category.name,
-      // data tiene que ser category.totalForMonth, acortado hasta este mes
-      data: Array.from({ length: currentMonthIndex + 1 }, (_, i) => category.totalForMonth[i]),
-      color: category.color,
-    };
-  });
+  for (let i = 0; i <= currentMonth; i++) { // Start from February (position 0)
+    const thisDate = new Date(currentYear, i, 1) // Set the day to 1 to get the beginning of the month
+    const dateString = `${monthNames[i]} ${thisDate.getFullYear().toString().substr(-2)}`
 
-  return result
+    const dataObject = { date: dateString }
+
+    data.forEach(item => {
+      dataObject[item.name] = item.totalForMonth[i] || 0
+    })
+
+    transformedData.push(dataObject)
+  }
+
+  return {
+    data: transformedData,
+    categories: data.map((category) => category.name)
+  }
 }
 
 export function transformDataBarGraph(data) {
@@ -27,6 +49,25 @@ export function transformDataBarGraph(data) {
 
   const currentMonthIndex = new Date().getMonth();
 
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
+
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ]
+
   let result = data.forEach(element => {
     for (let i = 0; i < element.totalForMonth.length; i++) {
       if (monthsTotal[i] === undefined) {
@@ -37,30 +78,39 @@ export function transformDataBarGraph(data) {
     }
   });
 
-  return [{
-    name: "Total",
-    data: Array.from({ length: currentMonthIndex + 1 }, (_, i) => monthsTotal[i]),
-  }]
+  let transformedData = Array.from({ length: currentMonthIndex + 1 }, (_, i) => monthsTotal[i]);
+
+  let final = {
+    topic: "total"
+  }
+
+  transformedData.forEach((month, i) => {
+    const dateString = `${monthNames[i]}`
+
+    final[dateString] = month;
+  })
+
+  let months = monthNames.slice(0, transformedData.length);
+
+  return {
+    data: [final],
+    // categories es el arreglo de monthNames hasta el tamano del transformedData
+    categories: months
+  }
 }
 
 export function transformDataPieGraph(data) {
   if (!data)
     return []
 
-  let totalForEachCategory = [];
+  let transformedData = [];
 
-  let result = data.forEach(element => {
-    totalForEachCategory.push(element.totalForMonth.reduce((a, b) => a + b, 0));
+  data.forEach((element) => {
+    transformedData.push({
+      name: element.name,
+      value: element.totalForMonth.reduce((a, b) => a + b, 0),
+    })
   });
 
-  console.log({
-    labels: data.map((category) => category.name),
-    data: totalForEachCategory
-  })
-
-
-  return {
-    labels: data.map((category) => category.name),
-    data: totalForEachCategory
-  }
+  return transformedData;
 }

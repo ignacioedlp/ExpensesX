@@ -4,14 +4,10 @@ import { useAuth } from 'src/auth'
 const Navbar = () => {
   const { logOut, isAuthenticated, currentUser } = useAuth()
   return (
-    <div className="flex w-16 flex-col justify-between  bg-[#2b2c31] py-4 ">
+    <div className="w-16 flex-col justify-between  bg-[#ffffff] py-4 hidden md:flex">
       <div>
         <div className="inline-flex h-16 w-16 items-center justify-center">
-          <span
-            className="grid h-10 w-10 place-content-center rounded-lg bg-[#ab2f50] text-xs text-white"
-          >
-            X
-          </span>
+          <img src="/favicon.png" alt="" />
         </div>
 
         <div className="">

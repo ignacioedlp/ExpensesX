@@ -15,9 +15,14 @@ import {
   TableCell,
   Text,
   Title,
+  Grid,
+  Metric,
   Badge,
+  Flex,
+  ProgressBar
 } from "@tremor/react";
 import { Button } from "@tremor/react";
+
 
 
 const DELETE_CATEGORY_MUTATION = gql`
@@ -28,20 +33,34 @@ const DELETE_CATEGORY_MUTATION = gql`
   }
 `
 
+const calculatePercente = (data, item) => {
+  // la suma de toda la data / item
+  let total = data.reduce((a, c) => a + c.totalExpenses, 0);
+  return parseFloat((item.totalExpenses / total) * 100).toFixed(2)
+
+}
+
 const CategoriesDashboard = ({ categories }) => {
 
   return (
-    <div class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-      {categories.map((category) => (
-
-        <div class="flex flex-col justify-center px-4 py-4 border border-gray-300 rounded bg-[#2B2C31]">
-          <div>
-            <p class="text-2xl md:text-3xl font-semibold text-center text-white">{(parseFloat(category.totalExpenses)).toLocaleString('en-US')}$</p>
-            <p class="text-lg text-center text-white">{category.name}</p>
-          </div>
-        </div>
+    <Grid numColsSm={2} numColsLg={3} className="gap-6">
+      {categories.map((item) => (
+        <Card key={item.name}>
+          <Text>{item.name}</Text>
+          <Metric>${(parseFloat(item.totalExpenses)).toLocaleString('en-US')}</Metric>
+          {/* agregar el porcentaje */}
+          <Flex className="mt-4">
+            <Text className="truncate">{`$${calculatePercente(categories, item)}% ($${parseFloat(item.totalExpenses).toLocaleString('en-US')})`}</Text>
+            <Text>${Math.round(categories.reduce((a, c) => a + c.totalExpenses, 0)).toLocaleString('en-US')}</Text>
+          </Flex>
+          <ProgressBar
+            percentageValue={calculatePercente(categories, item)}
+            className="mt-2"
+            color='violet'
+          />
+        </Card>
       ))}
-    </div>
+    </Grid>
   );
 };
 

@@ -1,183 +1,100 @@
-import { ApexOptions } from 'apexcharts';
 import React, { useState, useEffect } from 'react';
-import ReactApexChart from 'react-apexcharts';
 import { transformDataPieGraph } from 'src/lib/expensesMonth';
+import {
+  Card,
+  Legend,
+  DonutChart,
+  Flex,
+  Toggle,
+  ToggleItem,
+  Bold,
+  Divider,
+  List,
+  ListItem,
+  Metric,
+  Text,
+  Title,
+} from "@tremor/react";
 
-const data = [
-  {
-    categoryid: 4,
-    name: 'Music',
-    total: '509',
-  },
-  {
-    categoryid: 6,
-    name: 'Tools',
-    total: '17912',
-  },
-  {
-    categoryid: 2,
-    name: 'IA',
-    total: '14188',
-  },
-  {
-    categoryid: 3,
-    name: 'People',
-    total: '10819',
-  },
-  {
-    categoryid: 5,
-    name: 'Games',
-    total: '9248',
-  },
-  {
-    categoryid: 7,
-    name: 'Ocio',
-    total: '38300',
-  },
-  {
-    categoryid: 1,
-    name: 'Contador',
-    total: '25525',
-  },
-  {
-    categoryid: 8,
-    name: 'CrossFit',
-    total: '13900',
-  },
-];
+import { ViewListIcon, ChartPieIcon } from "@heroicons/react/outline";
 
-const options = {
-  chart: {
-    type: 'donut',
-    background: '#2B2C31'
-  },
-  theme: {
-    mode: 'dark',
-  },
-  colors: [
-    '#3C50E0',
-    '#80CAEE',
-    '#3056D3',
-    '#10B981',
-    '#F43F5E',
-    '#6366F1',
-    '#8B5CF6',
-    '#EC4899',
-    '#F97316',
-    '#F59E0B',
-    '#3B82F6',
-  ],
-  labels: data.map((item) => item.name),
-  legend: {
-    show: true,
-    position: 'bottom',
-    horizontalAlign: 'center',
-    fontSize: '14px',
-    fontFamily: 'Satoshi, sans-serif',
-    fontWeight: 400,
-    labels: {
-      colors: '#9AA5B1',
-    },
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: '65%',
-        background: 'transparent',
-      },
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-};
 
-const createConfiguration = (data) => {
-  return {
-    ...options,
-    labels: data,
-  };
-}
+const valueFormatter = (number) =>
+  `$ ${Intl.NumberFormat("us").format(number).toString()}`;
 
 const GraphPieCustom = ({ data }) => {
   const [transformedData, setTransformedData] = useState([])
-  const [configuration, setConfiguration] = useState(options)
+  const [selectedView, setSelectedView] = useState("chart");
 
   useEffect(() => {
     if (data) {
       const transformed = transformDataPieGraph(data)
-      setConfiguration(createConfiguration(transformed.labels))
-      setTransformedData(transformed.data)
+      setTransformedData(transformed)
     }
   }, [data])
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-[#2B2C31] px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5 w-full lg:w-2/5">
-      <div className="mb-3 justify-between gap-4 sm:flex py-4">
-        <div>
-          <h5 className="text-2xl font-bold mb-4">
-            Total for category
-          </h5>
-        </div>
-        <div>
-          {/* <div className="relative z-20 inline-block">
-            <select
-              name=""
-              id=""
-              className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
-            >
-              <option value="">Monthly</option>
-              <option value="">Yearly</option>
-            </select>
-            <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2">
-              <svg
-                width="10"
-                height="6"
-                viewBox="0 0 10 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.47072 1.08816C0.47072 1.02932 0.500141 0.955772 0.54427 0.911642C0.647241 0.808672 0.809051 0.808672 0.912022 0.896932L4.85431 4.60386C4.92785 4.67741 5.06025 4.67741 5.14851 4.60386L9.09079 0.896932C9.19376 0.793962 9.35557 0.808672 9.45854 0.911642C9.56151 1.01461 9.5468 1.17642 9.44383 1.27939L5.50155 4.98632C5.22206 5.23639 4.78076 5.23639 4.51598 4.98632L0.558981 1.27939C0.50014 1.22055 0.47072 1.16171 0.47072 1.08816Z"
-                  fill="#637381"
-                />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M1.22659 0.546578L5.00141 4.09604L8.76422 0.557869C9.08459 0.244537 9.54201 0.329403 9.79139 0.578788C10.112 0.899434 10.0277 1.36122 9.77668 1.61224L9.76644 1.62248L5.81552 5.33722C5.36257 5.74249 4.6445 5.7544 4.19352 5.32924C4.19327 5.32901 4.19377 5.32948 4.19352 5.32924L0.225953 1.61241C0.102762 1.48922 -4.20186e-08 1.31674 -3.20269e-08 1.08816C-2.40601e-08 0.905899 0.0780105 0.712197 0.211421 0.578787C0.494701 0.295506 0.935574 0.297138 1.21836 0.539529L1.22659 0.546578ZM4.51598 4.98632C4.78076 5.23639 5.22206 5.23639 5.50155 4.98632L9.44383 1.27939C9.5468 1.17642 9.56151 1.01461 9.45854 0.911642C9.35557 0.808672 9.19376 0.793962 9.09079 0.896932L5.14851 4.60386C5.06025 4.67741 4.92785 4.67741 4.85431 4.60386L0.912022 0.896932C0.809051 0.808672 0.647241 0.808672 0.54427 0.911642C0.500141 0.955772 0.47072 1.02932 0.47072 1.08816C0.47072 1.16171 0.50014 1.22055 0.558981 1.27939L4.51598 4.98632Z"
-                  fill="#637381"
-                />
-              </svg>
-            </span>
-          </div> */}
-        </div>
-      </div>
-
-      <div className="mx-auto">
-        <div id="chartThree" className="mx-auto flex justify-center">
-          <ReactApexChart
-            options={configuration}
-            series={transformedData}
-            type="donut"
-          />
-        </div>
-      </div>
-
-      {/* <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
-        {data?.map((data, index) => (
-          <div className="w-full px-8 sm:w-1/2">
-            <div className="flex w-full items-center">
-              <span
-                className={`mr-2 block h-3 w-full max-w-3 rounded-full`}
-              ></span>
-              <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                <span> {data.name} </span>
-                <span> ${data.total} </span>
-              </p>
-            </div>
+    <div className="col-span-12 xl:col-span-5 w-full lg:w-2/5">
+      <Card className="max-w-md mx-auto">
+        <Flex className="space-x-8" justifyContent="between" alignItems="center">
+          <Title>Total por categoria</Title>
+          <Toggle
+            defaultValue="chart"
+            color="gray"
+            onValueChange={(value) => setSelectedView(value)}
+          >
+            <ToggleItem value="chart" icon={ChartPieIcon} />
+            <ToggleItem value="list" icon={ViewListIcon} />
+          </Toggle>
+        </Flex>
+        <Text className="mt-8">Promedio por mes</Text>
+        <Metric>
+          {
+            valueFormatter(Math.round(transformedData.reduce((acc, stock) => acc + stock.value, 0) / 12))
+          }
+        </Metric>
+        <Divider />
+        <Text className="mt-8">
+          <Bold>Categorias</Bold>
+        </Text>
+        <Legend
+          categories={transformedData.map((city) => city.name)}
+          className="mt-6"
+        />
+        {selectedView === "chart" ? (
+          <div>
+            <DonutChart
+              data={transformedData}
+              showAnimation={false}
+              category="value"
+              index="name"
+              valueFormatter={valueFormatter}
+              className="mt-6"
+            />
           </div>
-        ))} */}
-      {/* </div> */}
+        ) : (
+          <>
+            <Flex className="mt-8" justifyContent="between">
+              <Text className="truncate">
+                <Bold>Categoria</Bold>
+              </Text>
+              <Text>Gastado</Text>
+            </Flex>
+            <List className="mt-4">
+              {transformedData.map((stock) => (
+                <ListItem key={stock.name}>
+                  <Text>{stock.name}</Text>
+                  <Flex justifyContent="end" className="space-x-2">
+                    <Text>
+                      {valueFormatter(stock.value)}
+                    </Text>
+                  </Flex>
+                </ListItem>
+              ))}
+            </List>
+          </>
+        )}
+      </Card>
     </div>
   );
 };
